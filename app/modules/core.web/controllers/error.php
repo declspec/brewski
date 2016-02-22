@@ -19,9 +19,10 @@ class ErrorController {
         '<html lang="en">' .
         '<head>' .
         '<meta charset="utf-8" />' .
+        '<link rel="stylesheet" href="/css/0.0.1/bootstrap-bare.css" />' .
         '<title>' . self::escape($title) . '</title>' .
         '</head>' .
-        '<body>' . $html . '</body>' .
+        '<body><div class="container"><div class="row">' . $html . '</div></div></body>' .
         '</html>';
     }
     
