@@ -4,6 +4,7 @@ app/config/**/*.php
 # Asset ignores
 node_modules/
 .sass-cache/
+.runtime/
 
 public/js/[0-9]*/*.js
 public/css/[0-9]*/*.css
