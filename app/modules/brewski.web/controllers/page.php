@@ -7,6 +7,6 @@ class PageController {
     }
     
     public function index($req, $res) {
-        $res->send($this->_template->render('index.tpl', array('name'=>'Jason')));   
+        $res->send($this->_template->render('index.html', array('name'=>'Jason')));   
     }   
 }

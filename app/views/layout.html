@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8" />
+        <title>{block name=title}Untitled | {$global.appName}{/block}</title>
+        
+        <link rel="stylesheet" type="text/css" href="//fonts.googleapis.com/css?family=Roboto:300,400,500,700,400italic" />
+        <link rel="stylesheet" type="text/css" href="/css/{$global.appVersion}/bootstrap-bare.css" />
+        <link rel="stylesheet" type="text/css" href="/css/{$global.appVersion}/site.css" />
+        {block name=head}{/block}
+    </head>
+    <body>
+        <header class="navigator">
+            <p>Hello, world</p>
+        </header>
+        <section class="content container">
+            <p>Hello, world</p>
+            {block name=body}{/block}
+        </section>
+    </body>
+</html>
