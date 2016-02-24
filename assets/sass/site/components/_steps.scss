@@ -1,0 +1,34 @@
+$separator-width: 2em;
+$seperator-height: .2em;
+$indicator-size: 2em;
+
+.step-navigator {
+    .step {
+        width: $indicator-size;
+        height: $indicator-size;
+        border-radius: $indicator-size/2;
+        
+        line-height: $indicator-size;
+        text-align: center;
+        margin-right: $separator-width;
+        
+        position: relative;
+        display: inline-block;
+    }
+    
+    .step:last-child {
+        margin-right: 0;   
+    }
+
+    .step:not(:first-child):before {
+        content: ' ';
+        position: absolute;
+        top: 50%;
+        left: -($separator-width + ($separator-width / 2));
+        margin-top: -($seperator-height/2);
+        
+        height: $seperator-height;
+        width: $separator-width + ($separator-width / 2);
+        display: block;
+    }
+}
