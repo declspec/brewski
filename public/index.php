@@ -7,7 +7,7 @@ $app = Application::bootstrap("brewski.web", $env, function($app, $controller) {
     $errorController = $controller->create("ErrorController");
     $pageController = $controller->create("PageController");
     
-    $app->all('/', array($pageController, 'index'));
+    $app->all('/recipe', array($pageController, 'recipe'));
 
     $app->all('*', array($errorController, "notFound"));
     $app->error(array($errorController, "serverError"));

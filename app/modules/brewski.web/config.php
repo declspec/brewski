@@ -11,7 +11,8 @@ return function($dm) {
         // Setup global variables accessible from any view.
         $TemplateServiceProvider->addGlobals(array(
             'appName' => $config->get('appName'),
-            'appVersion' => $config->get('appVersion')
+            'appVersion' => $config->get('appVersion'),
+            'debug' => $config->get('debug')
         ));
     });
     
