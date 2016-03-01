@@ -1,0 +1,13 @@
+<form class="row" ng-submit="validate() && save()">
+    <ul class="step-navigator">
+        <li ng-repeat="s in steps" class="step" ng-class="{active: $index === step}" ng-bind="$index+1"></li>
+    </ul>
+    
+    <div ui-view></div>
+    
+    <div class="form-navigation">
+        <button class="btn btn-sm btn-primary" ng-if="step > 0" ng-click="back()">Back</button>
+        <button class="btn btn-sm btn-primary" ng-if="step != steps.length - 1" ng-click="next()">Next</button>
+        <button class="btn btn-sm btn-primary" ng-if="step >= steps.length - 1" ng-click="submit()">Submit</button>
+    </div>
+</form>

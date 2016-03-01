@@ -24,11 +24,11 @@ $indicator-size: 2em;
         content: ' ';
         position: absolute;
         top: 50%;
-        left: -($separator-width + ($separator-width / 2));
+        left: -($separator-width + ($indicator-size / 4));
         margin-top: -($seperator-height/2);
         
         height: $seperator-height;
-        width: $separator-width + ($separator-width / 2);
+        width: $separator-width + ($indicator-size / 4);
         display: block;
     }
 }
