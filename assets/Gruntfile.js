@@ -29,7 +29,10 @@ module.exports = function(grunt) {
                     src: [ "*/*.scss" ],
                     dest: cssDestination,
                     ext: ".css"
-                }]
+                }],
+                options: {
+                    precision: 10
+                }
             }
         },
         watch: {
