@@ -11,22 +11,22 @@
                 url: '/edit/{recipeId:[0-9]+}',
                 abstract: true,
                 controller: 'EditRecipeController',
-                templateUrl: '/partials/recipe/_new.html',
+                templateUrl: '/partials/recipe/edit.html',
                 params: {
                     recipeId: { value: null, squash: true }
                 }
             })
             .state('edit.description', {
                 url: '',
-                templateUrl: '/partials/recipe/_new-description.html'
+                templateUrl: '/partials/recipe/_edit-description.html'
             })
             .state('edit.ingredients', {
                 url: '/ingredients',
-                template: '<div ingredient-list ingredients="recipe.ingredients"></div>'
+                templateUrl: '/partials/recipe/_edit-ingredients.html'
             })
             .state('edit.steps', {
                 url: '/steps',
-                templateUrl: '/partials/recipe/_new-steps.html' 
+                templateUrl: '/partials/recipe/_edit-steps.html' 
             });
             
             $urlRouterProvider.otherwise('/edit');
