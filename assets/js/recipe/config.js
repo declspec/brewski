@@ -7,24 +7,29 @@
         function($stateProvider, $urlRouterProvider, $locationProvider) {
             $locationProvider.html5Mode(true).hashPrefix('!');
             
-            $stateProvider.state('new', {
-                url: '/new',
+            $stateProvider.state('edit', {
+                url: '/edit/{recipeId:[0-9]+}',
                 abstract: true,
-                controller: 'NewRecipeController',
-                templateUrl: '/partials/recipe/_new.html'   
+                controller: 'EditRecipeController',
+                templateUrl: '/partials/recipe/_new.html',
+                params: {
+                    recipeId: { value: null, squash: true }
+                }
             })
-            .state('new.description', {
+            .state('edit.description', {
                 url: '',
                 templateUrl: '/partials/recipe/_new-description.html'
             })
-            .state('new.ingredients', {
-                templateUrl: '/partials/recipe/_new-ingredients.html' 
+            .state('edit.ingredients', {
+                url: '/ingredients',
+                template: '<div ingredient-list ingredients="recipe.ingredients"></div>'
             })
-            .state('new.steps', {
+            .state('edit.steps', {
+                url: '/steps',
                 templateUrl: '/partials/recipe/_new-steps.html' 
             });
             
-            $urlRouterProvider.otherwise('/new');
+            $urlRouterProvider.otherwise('/edit');
         }
     ]);
 }());

@@ -1,0 +1,11 @@
+<p>Ingredients</p>
+
+<div ng-repeat="ingredient in ingredients" class="input-group">
+    <input type="text" class="form-control" placeholder="description" ng-model="ingredient.description" />
+    <span class="input-group-btn">
+        <button class="btn btn-default" ng-click="add($index + 1)">+</button>
+    </span>
+    <span class="input-group-btn">
+        <button class="btn btn-default" ng-click="remove($index)">+</button>
+    </span>
+</div>
