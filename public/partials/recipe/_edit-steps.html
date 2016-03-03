@@ -1,1 +1,6 @@
 <p>steps</p>
+
+<div ng-repeat="step in recipe.steps" class="recipe-input form-group">
+    <textarea style="resize:none" class="form-control" ng-model="step.content" required></textarea>
+</div>       
+<button class="btn btn-primary" ng-click="addStep(recipe.steps.length)">Add Step</button>

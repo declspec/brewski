@@ -1,7 +1,10 @@
 <p>Ingredients</p>
 
 <div ng-repeat="ingredient in recipe.ingredients" class="input-group">
-    <input type="text" class="form-control" placeholder="description" ng-model="ingredient.description" />
+    <span class="input-group-btn">
+        <input type="text" class="form-control" placeholder="QTY" ng-model="ingredient.quantity" />
+    </span>
+    <input type="text" class="form-control" placeholder="description" ng-model="ingredient.description" required />
     <span class="input-group-btn">
         <button class="btn btn-default" ng-click="addIngredient($index + 1)">+</button>
     </span>
