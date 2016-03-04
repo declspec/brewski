@@ -52,8 +52,7 @@ angular.module('recipe').controller('EditRecipeController', [ '$q', '$scope', '$
             $scope.recipe.steps.splice(index, 1);  
         };
         
-        
-        
+        // Private functions
         function setStep(number) {
             if (number != $scope.step && number >= 0 && number < $scope.steps.length) {
                 $scope.step = number;
