@@ -1,14 +1,16 @@
 <p>Ingredients</p>
 
-<div ng-repeat="ingredient in recipe.ingredients" class="input-group">
-    <span class="input-group-btn">
-        <input type="text" class="form-control" placeholder="QTY" ng-model="ingredient.quantity" />
-    </span>
-    <input type="text" class="form-control" placeholder="description" ng-model="ingredient.description" required />
-    <span class="input-group-btn">
-        <button class="btn btn-default" ng-click="addIngredient($index + 1)">+</button>
-    </span>
-    <span class="input-group-btn">
-        <button class="btn btn-default" ng-click="removeIngredient($index)">-</button>
-    </span>
+<div ng-repeat="ingredient in recipe.ingredients" class="ingredient row row-sm-padding">
+    <div class="col-ms-2 form-group">
+        <input type="text" class="form-control" placeholder="Qty" ng-model="ingredient.quantity" />
+    </div>
+    <div class="col-ms-9 form-group">
+        <input type="text" class="form-control" placeholder="Description" ng-model="ingredient.description" required />
+    </div>
+    <div class="col-ms-1 form-group text-center">
+        <button class="btn btn-sm btn-danger">
+            <span class="glyphicon glyphicon-remove hidden-xs"></span>
+            <span class="visible-xs-block">Remove</span>
+        </button>
+    </div>
 </div>

@@ -36,36 +36,39 @@
     margin-right: 0px;   
 }
 
-// Because we can't include the core rules (due to breaking Curtin's existing stylesheets/templates)
-.row {
-    box-sizing: border-box;
-
+.row-no-padding {
 	[class*="col-"] {
-		box-sizing: border-box;
-	}
+        padding-left: 0 !important;
+        padding-right: 0 !important;
+    }
+    
+    margin-left: 0 !important;
+    margin-right: 0 !important;
 }
 
-.row-no-pad {
+.row-sm-padding {
 	[class*="col-"] {
-		padding: 0;
-	}
+        padding-left: 5px !important;
+        padding-right: 5px !important;
+    }
+    
+    margin-left: -5px !important;
+    margin-right: -5px !important;
 }
 
-.row-sm-pad {
+.row-md-padding {
 	[class*="col-"] {
-		padding: 0 5px;
-	}
+        padding-left: 10px !important;
+        padding-right: 10px !important;
+    }
+    
+    margin-left: -10px !important;
+    margin-right: -10px !important;
 }
 
-.row-md-pad {
-	[class*="col-"] {
-		padding: 0 10px
-	}
-}
 
-@media (min-width: $screen-xs-min) {
-	.col-xs-valign { @include col-valign; }
-}
+.col-xs-valign { @include col-valign; }
+
 
 @media (min-width: $screen-sm-min) {
 	.col-sm-valign { @include col-valign; }

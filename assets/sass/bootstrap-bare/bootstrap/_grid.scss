@@ -9,10 +9,15 @@
 
 .container {
   @include container-fixed;
+  
+  @media (min-width: $screen-ms-min) {
+    width: $container-ms;   
+  }
 
   @media (min-width: $screen-sm-min) {
     width: $container-sm;
   }
+  
   @media (min-width: $screen-md-min) {
     width: $container-md;
   }
@@ -55,6 +60,10 @@
 
 @include make-grid(xs);
 
+// Smaller grip
+@media (min-width: $screen-ms-min) {
+  @include make-grid(ms);   
+}
 
 // Small grid
 //
