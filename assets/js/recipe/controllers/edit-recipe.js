@@ -10,11 +10,12 @@ angular.module('recipe').controller('EditRecipeController', [ '$q', '$scope', '$
         // Find the current step (you may enter the form at any one of the steps and the controller needs to initialise properly)
         $scope.step = Math.max($scope.steps.indexOf($state.current.name), 0);
         $scope.loading = true;
+        $scope.errors = [];
         
         // Lookup the recipe or create a new one
         var recipePromise = $stateParams.recipeId
             ? RecipeService.find($stateParams.recipeId)
-            : RecipeService.newRecipe();
+            : RecipeService.getNewRecipe();
         
         $q.when(recipePromise).then(function(recipe) {
             $scope.recipe = recipe; 
@@ -28,36 +29,56 @@ angular.module('recipe').controller('EditRecipeController', [ '$q', '$scope', '$
 
         // Set up the scope functions
         $scope.next = function() {
-            setStep($scope.step + 1);
+            $scope.setStep($scope.step + 1);
         };
         
         $scope.back = function() {
-            setStep($scope.step - 1);
+            $scope.setStep($scope.step - 1);
+        };
+        
+        $scope.setStep = function (number) {
+            if (number != $scope.step && number >= 0 && number < $scope.steps.length) {
+                $scope.step = number;
+                $state.go($scope.steps[number]);
+            }   
         };
         
         $scope.addIngredient = function(index) {
-            $scope.recipe.ingredients.splice(index, 0, { quantity: '', description: '' }); 
+            $scope.recipe.ingredients.push({ quantity: '', description: '' }); 
         };
         
         $scope.removeIngredient = function(index) {
             if ($scope.recipe.ingredients.length > 1)
                 $scope.recipe.ingredients.splice(index, 1);  
+            else
+                $scope.recipe.ingredients[0] = { quantity: '', description: '' };
         };
         
         $scope.addStep = function(index) {
-            $scope.recipe.steps.splice(index, 0, { content: '' });  
+            $scope.recipe.steps.push({ content: '' });  
         };
         
         $scope.removeStep = function(index) {
-            $scope.recipe.steps.splice(index, 1);  
+            if ($scope.recipe.steps.length > 1 )
+                $scope.recipe.steps.splice(index, 1);  
+            else
+                $scope.recipe.steps[0] = { content: '' };
         };
         
-        // Private functions
-        function setStep(number) {
-            if (number != $scope.step && number >= 0 && number < $scope.steps.length) {
-                $scope.step = number;
-                $state.go($scope.steps[number]);
-            }   
+        // Validation and submission
+        $scope.submit = function() {
+            if (!validate())
+                return false;    
+                
+            RecipeService.save($scope.recipe).then(function(recipe) {
+                $state.go('view', { recipeId: recipe.id });
+            }, function(res) {
+                $scope.errors = res.errors || [ 'An unknown error has occurred. Please try again.' ];
+            });
+        }
+        
+        function validate() {
+            return true;   
         }
     }
 ]);

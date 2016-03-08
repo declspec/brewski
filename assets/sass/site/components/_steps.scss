@@ -1,8 +1,10 @@
 $separator-width: 2em;
-$seperator-height: .2em;
+$separator-height: .2em;
 $indicator-size: 2em;
 
 .step-navigator {
+    padding: 0;
+    
     .step {
         width: $indicator-size;
         height: $indicator-size;
@@ -10,25 +12,42 @@ $indicator-size: 2em;
         
         line-height: $indicator-size;
         text-align: center;
-        margin-right: $separator-width;
+        margin-left: $separator-width;
         
         position: relative;
         display: inline-block;
+        background-color: $step-active-bgcolor;
+        color: $step-active-color;
+        cursor: pointer;
     }
     
-    .step:last-child {
-        margin-right: 0;   
+    .step.active ~ .step {
+        background-color: $step-inactive-bgcolor;   
+        color: $step-inactive-color;
+    }
+    
+    .step:first-child {
+        margin-left: 0;   
     }
 
-    .step:not(:first-child):before {
+    .step:not(:last-child):after {
         content: ' ';
         position: absolute;
         top: 50%;
-        left: -($separator-width + ($indicator-size / 4));
-        margin-top: -($seperator-height/2);
+        right: -($separator-width + ($indicator-size / 4));
+        margin-top: -($separator-height/2);
         
-        height: $seperator-height;
+        height: $separator-height;
         width: $separator-width + ($indicator-size / 4);
         display: block;
+        
+        background-color: $step-active-bgcolor;
+        cursor: default;
     }
+    
+    .step.active:after, .step.active ~ .step:not(:last-child):after {
+        background-color: $step-inactive-bgcolor; 
+    }
+    
+    
 }

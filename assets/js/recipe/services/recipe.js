@@ -1,11 +1,11 @@
-angular.module('recipe').service('RecipeService', [ '$q',
-    function($q) {
+angular.module('recipe').service('RecipeService', [ '$q', '$httpq',
+    function($q, $httpq) {
         var defaultRecipe = {
             ingredients: [ { quantity: "", description: "" } ],
             steps: [ { content: "" } ]
         };
         
-        this.newRecipe = function() {
+        this.getNewRecipe = function() {
             return angular.copy(defaultRecipe, {});  
         };
         
@@ -44,6 +44,18 @@ angular.module('recipe').service('RecipeService', [ '$q',
                     { content: "Ferment for 14 days at 18-22 C" },
                     { content: "Leave to settle for a week " }
                 ]
+            });
+        };
+        
+        this.save = function(recipe) {
+            var target = recipe.id 
+                ? '/api/recipe/' + encodeURIComponent(recipe.id)
+                : '/api/recipe';
+                
+            return $httpq.post(target, recipe).then(function(res) {
+                return res.success
+                    ? res.data
+                    : $q.reject(res.errors);
             });
         };
     }

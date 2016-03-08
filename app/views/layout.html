@@ -2,6 +2,8 @@
 <html lang="en">
     <head>
         <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        
         <title>{block name=title}Untitled | {$global.appName}{/block}</title>
         
         <link rel="stylesheet" type="text/css" href="//fonts.googleapis.com/css?family=Roboto:300,400,500,700,400italic" />
@@ -20,9 +22,11 @@
     </head>
     <body>
         <header class="navigator">
-            <p>Hello, world</p>
+            <div class="container text-center">
+                <span class="site-title"><strong>{$global.appName|upper}</strong></span>
+            </div>
         </header>
-        <section class="content">
+        <section class="content container">
             {block name=body}{/block}
         </section>
     </body>

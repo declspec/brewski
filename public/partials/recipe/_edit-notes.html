@@ -1,9 +1,12 @@
+<h3>Pearls of wisdom</h3>
+<p>Put any additional notes about the brew here as well as an estimate of how long the process should take.</p>
+
 <div class="form-group">
-    <label for="notes">Additional Notes <em>(optional)</em></label>
-    <input type="text" class="form-control" id="notes" ng-model="recipe.notes" />
+    <label for="estimatedTime">Estimated time to brew <em>(optional)</em></label>
+    <input type="text" class="form-control" id="estimatedTime" placeholder="e.g. 1 hour" ng-model="recipe.estimatedTime" />
 </div>
 
 <div class="form-group">
-    <label for="estimatedTime">Estimated time to complete </em>(optional)</em></label>
-    <input type="text" class="form-control" id="estimatedTime" ng-model="recipe.estimatedTime" />
+    <label for="notes">Additional Notes <em>(optional)</em></label>
+    <textarea style="resize:vertical" class="form-control" id="notes" rows="3" placeholder="Additional notes about the brew, i.e. specific gravity readings etc." ng-model="recipe.notes"></textarea>
 </div>

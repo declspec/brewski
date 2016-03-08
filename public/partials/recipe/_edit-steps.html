@@ -1,6 +1,14 @@
-<p>steps</p>
-
-<div ng-repeat="step in recipe.steps" class="recipe-input form-group">
-    <textarea style="resize:none" class="form-control" ng-model="step.content" required></textarea>
+<h3>How do you make it?</h3>
+<p>Donec eu varius lacus, ut condimentum nunc. Donec cursus lorem metus, id placerat nisi vehicula sit amet. Curabitur ultricies ultrices augue, in hendrerit sapien sagittis ut. 
+    Aliquam pharetra varius est, sed condimentum odio malesuada et. Duis sed eleifend orci.</p>
+    
+<div ng-repeat="step in recipe.steps" class="recipe-input form-group input-group">
+    <span class="input-group-addon">
+        <span ng-bind="$index+1"></span>
+    </span>
+    <textarea style="resize:vertical" class="form-control" ng-model="step.content" rows="1" required></textarea>
+    <span class="btn btn-danger btn-addon input-group-addon" ng-click="removeStep($index)">
+        <span class="glyphicon glyphicon-remove"></span>
+    </span>
 </div>       
-<button class="btn btn-primary" ng-click="addStep(recipe.steps.length)">Add Step</button>
+<button class="btn btn-sm btn-success" ng-click="addStep(recipe.steps.length)">Add Step</button>

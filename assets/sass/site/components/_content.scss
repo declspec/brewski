@@ -2,16 +2,38 @@ body {
     font-family: "Roboto", "Helvetica Neue", Helvetica, Arial, sans-serif;
     font-size: 14px;
     line-height: 1.5;
-    //color: #cfd2da;
-    //background-color: #252830;   
-    padding-top: 50px;
+    padding-top: $navigator-height;
     padding-bottom: 50px;
 }
 
+.content {
+    padding-top: 20px;   
+}
+
+@media (min-width: $screen-sm-min) {
+    .content {
+        padding-top: 40px;   
+    }
+}
+
 .navigator {
-    height: 50px;
+    height: $navigator-height;
     position: fixed;
     top: 0;
     left: 0;
     right: 0;   
+    z-index: 100;
+    background-color: black;
+    color: white;
+    
+    .site-title {
+        line-height: $navigator-height;   
+        display: block;
+    }
+}
+
+@media (max-width: $screen-xs-max) {
+    .text-xs-center { text-align: center; }
+    .text-xs-left { text-align: left; }
+    .text-xs-right { text-align: right; }
 }

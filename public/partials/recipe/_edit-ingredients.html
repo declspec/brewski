@@ -1,16 +1,24 @@
-<p>Ingredients</p>
+<h3>What ingredients do you need to make it?</h3>
+<p>Duis quam tellus, sodales pellentesque ex ac, bibendum aliquam libero. Phasellus posuere metus a est imperdiet, a tempus ligula blandit. 
+    Integer facilisis ultrices dolor, ac vulputate felis faucibus ac. Curabitur ut tellus vitae massa aliquam venenatis a at purus.</p>
 
 <div ng-repeat="ingredient in recipe.ingredients" class="ingredient row row-sm-padding">
+    <hr ng-show="$index > 0" class="visible-xs" style="margin-top: 5px" />
+    
     <div class="col-ms-2 form-group">
         <input type="text" class="form-control" placeholder="Qty" ng-model="ingredient.quantity" />
     </div>
-    <div class="col-ms-9 form-group">
+    <div class="col-ms-10 form-group input-group">
         <input type="text" class="form-control" placeholder="Description" ng-model="ingredient.description" required />
+        <span class="input-group-btn">
+            <button class="btn btn-danger" type="button" ng-click="removeIngredient($index)">
+                <span class="glyphicon glyphicon-remove"></span>
+            </button>
+        </span>
     </div>
-    <div class="col-ms-1 form-group text-center">
-        <button class="btn btn-sm btn-danger">
-            <span class="glyphicon glyphicon-remove hidden-xs"></span>
-            <span class="visible-xs-block">Remove</span>
-        </button>
-    </div>
+    
+</div>
+
+<div class="form-group text-xs-center">
+    <button class="btn btn-sm btn-success" type="button" ng-click="addIngredient()">Add Ingredient</button>
 </div>
