@@ -35,7 +35,7 @@ class Request {
             : $this->url;
         
         $this->query = $_GET;
-        $this->body = $this->json ? json_decode(file_get_contents("php://input"), true) : $_POST;
+        $this->body = $this->json ? json_decode(file_get_contents("php://input"), false) : (object)$_POST;
         $this->cookies = $_COOKIE;        
     }
 };

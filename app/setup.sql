@@ -10,7 +10,7 @@ CREATE TABLE IF NOT EXISTS recipe (
     date_created    DATETIME NOT NULL,
     date_modified   DATETIME,
     
-    FOREIGN KEY parent_id REFERENCES recipe(id) ON DELETE SET NULL
+    FOREIGN KEY(parent_id) REFERENCES recipe(id) ON DELETE SET NULL
 );
 
 CREATE TABLE IF NOT EXISTS recipe_ingredient (
@@ -18,7 +18,7 @@ CREATE TABLE IF NOT EXISTS recipe_ingredient (
     quantity        VARCHAR(64),
     description     VARCHAR(256) NOT NULL,
 
-    FOREIGN KEY recipe_id REFERENCES recipe(id) ON DELETE CASCADE
+    FOREIGN KEY(recipe_id) REFERENCES recipe(id) ON DELETE CASCADE
 );
 
 CREATE TABLE IF NOT EXISTS recipe_step (
@@ -26,5 +26,5 @@ CREATE TABLE IF NOT EXISTS recipe_step (
     step_order      INT NOT NULL,
     content         TEXT,
     
-    FOREIGN KEY recipe_id REFERENCES recipe(id) ON DELETE CASCADE
+    FOREIGN KEY(recipe_id) REFERENCES recipe(id) ON DELETE CASCADE
 );
