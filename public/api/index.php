@@ -9,6 +9,7 @@ $app = Application::bootstrap("brewski.api", $env, function($app, $controller) {
     
     $app->post('/recipe', array($recipeController, 'save'));
     $app->post('/recipe/:id(\d+)', array($recipeController, 'save'));
+    $app->get('/recipe/:id(\d+)', array($recipeController, 'find'));
 
     $app->all('*', array($errorController, "notFound"));
     $app->error(array($errorController, "serverError"));

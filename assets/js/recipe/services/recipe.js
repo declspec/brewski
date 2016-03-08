@@ -10,6 +10,13 @@ angular.module('recipe').service('RecipeService', [ '$q', '$httpq',
         };
         
         this.find = function(recipeId) {
+            return $httpq.get('/api/recipe/' + encodeURIComponent(recipeId)).then(function(res) {
+                return res.success
+                    ? res.data
+                    : $q.reject(res)
+            });
+            
+            /*
             return $q.when({
                 name: 'James Squire 150 Lashes replica',
                 description: 'JS 150 lashes all grain, bloody excellent after a fortnight bubbling in the fermenter, a week to settle and a month in the keg. Carbonates well, great, persistent head which slides all the way down the glass, same colour as the commercial brew, but more aroma and ' 
@@ -44,7 +51,7 @@ angular.module('recipe').service('RecipeService', [ '$q', '$httpq',
                     { content: "Ferment for 14 days at 18-22 C" },
                     { content: "Leave to settle for a week " }
                 ]
-            });
+            });*/
         };
         
         this.save = function(recipe) {

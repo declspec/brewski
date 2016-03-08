@@ -78,7 +78,7 @@ class DatabaseService {
     }
     
     public function getLastInsertId() {
-        return $this->_acquire()->lastInsertId;   
+        return $this->acquire()->lastInsertId();   
     }
     
     public function query($sql, array $params=null, $emulatePrepare=true) {
@@ -97,7 +97,7 @@ class DatabaseService {
         $this->bindStatement($statement, $params);
         
         $statement->execute();
-        $nrows = $statement->rowCount;
+        $nrows = $statement->rowCount();
         $statement->closeCursor();
         
         return $nrows;
