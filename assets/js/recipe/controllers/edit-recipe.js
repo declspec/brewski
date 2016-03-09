@@ -13,12 +13,18 @@ angular.module('recipe').controller('EditRecipeController', [ '$q', '$scope', '$
         $scope.errors = [];
         
         // Lookup the recipe or create a new one
-        var recipePromise = $stateParams.recipeId
-            ? RecipeService.find($stateParams.recipeId)
+        var recipePromise = $stateParams.recipeId || $stateParams.base
+            ? RecipeService.find($stateParams.recipeId || $stateParams.base)
             : RecipeService.getNewRecipe();
         
         $q.when(recipePromise).then(function(recipe) {
             $scope.recipe = recipe; 
+            
+            // If providing a 'parent' recipe, swap the id/parentId fields.
+            if ($stateParams.base && recipe) {
+                recipe.parentId = recipe.id;
+                recipe.id = null;
+            }
         }).finally(function() {
             $scope.loading = false;
         });

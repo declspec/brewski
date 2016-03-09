@@ -9,12 +9,13 @@
             
             $stateProvider
                 .state('edit', {
-                    url: '/edit/{recipeId:[0-9]+}',
+                    url: '/edit/{recipeId:[0-9]+}?base',
                     abstract: true,
                     controller: 'EditRecipeController',
                     templateUrl: '/partials/recipe/edit.html',
                     params: {
-                        recipeId: { value: null, squash: true }
+                        recipeId: { value: null, squash: true },
+                        base: { value: null, squash: true }
                     }
                 })
                 .state('edit.description', {
