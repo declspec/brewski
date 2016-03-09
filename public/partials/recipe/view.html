@@ -1,6 +1,11 @@
 <div class="col-md-8 col-md-offset-2">
     <h1 ng-bind="recipe.name"></h1>
     <p ng-bind="recipe.description"></p>
+    
+    <p ng-if="recipe.nextVersionId">
+        <strong>NOTE:</strong> this is no longer the latest version of this recipe. For the latest version, see 
+        <a href ui-sref="view({ recipeId: recipe.nextVersionId })" ng-bind="recipe.nextVersionName"></a>.
+    </p>
 
     <h2>Ingredients List</h2>
     <ul>

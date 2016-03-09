@@ -2,23 +2,6 @@
 class RecipeService {
     private $_db;
     
-    private static $InsertSql = 
-        'INSERT INTO recipe (
-            parent_id, name, description, 
-            notes, estimated_time, date_created
-        ) 
-        VALUES (
-            :parentId, :name, :description, 
-            :notes, :estimatedTime, NOW()
-        )';
-    
-    private static $UpdateSql = 
-        'UPDATE recipe SET 
-            name = :name, description = :description,
-            notes = :notes, estimated_time = :estimatedTime,
-            date_modified = NOW()
-         WHERE id = :id';
-        
     public function __construct($Database) {
         $this->_db = $Database;
     }  
@@ -35,57 +18,48 @@ class RecipeService {
         return $recipe;   
     }
     
-    public function create($recipe) {
+    public function save($recipe) {
         $this->_db->begin();
         
-        try {
-            $params = self::buildParams($recipe, array(':id'));
-
-            $this->_db->execute(self::$InsertSql, $params);
-            $recipe['id'] = $this->_db->getLastInsertId();
-            
-            $this->createIngredients($recipe['id'], $recipe['ingredients']);
-            $this->createSteps($recipe['id'], $recipe['steps']);
-            
-            $this->_db->commit();
-            return $recipe;
-        }
-        catch(Exception $ex) {
-            $this->_db->rollback();
-            throw $ex; // not our problem
-        }
-    }
-    
-    public function update($recipe) {
-        $this->_db->begin();
+        $sql = 
+            'INSERT INTO recipe (
+                parent_id, name, description, 
+                notes, estimated_time, date_created
+            ) 
+            VALUES (
+                :parentId, :name, :description, 
+                :notes, :estimatedTime, NOW()
+            )';
         
         try {
-            // Update the recipe
-            $params = self::buildParams($recipe, array(':parentId'));
-            $this->_db->execute(self::$UpdateSql, $params);
+            $params = self::buildParams($recipe);
+            $this->_db->execute($sql, $params);
             
-            // Delete the steps + ingredients
-            $deleteSql = 
-               'DELETE s.*, i.* 
-                FROM recipe_step s, recipe_ingredient i 
-                WHERE s.recipe_id = i.recipe_id AND s.recipe_id = :recipeId';
+            // Save the newly inserted ID but don't update the model just yet
+            $newRecordId = $this->_db->getLastInsertId();
             
-            $this->_db->execute($deleteSql, array(':recipeId' => $recipe['id']));
+            // Create the steps/ingredients
+            $this->createIngredients($newRecordId, $recipe['ingredients']);
+            $this->createSteps($newRecordId, $recipe['steps']);
             
-            // Create the new steps + ingredients
-            $this->createIngredients($recipe['id'], $recipe['ingredients']);
-            $this->createSteps($recipe['id'], $recipe['steps']);
-            
-            // Commit and finish
+            // If there is an existing record, update it and all old versions to point
+            // to the new record. This allows people to still refer to the old recipe,
+            // but find the latest copy if they want.
+            if (isset($recipe['id'])) {
+                $sql = 'UPDATE recipe SET next_version_id = :id WHERE id = :oldId OR next_version_id = :oldId';
+                $this->_db->execute($sql, array(':id' => $newRecordId, ':oldId' => $recipe['id']));
+            }
+                
             $this->_db->commit();
+            $recipe['id'] = $newRecordId;
             return $recipe;
-        }
-        catch(Exception $ex) {
-            $this->_db->rollback();
-            throw $ex; // not our problem
         } 
+        catch(Exception $ex) {
+            $this->_db->rollback();
+            throw $ex; // not our problem
+        }  
     }
-    
+
     private function validate($recipe) {
            
     }
@@ -94,9 +68,12 @@ class RecipeService {
         $sql = 'SELECT c.id, c.name, c.description,
                 c.parent_id AS parentId, c.notes, 
                 c.estimated_time AS estimatedTime, 
-                c.date_created AS dateCreated, p.name AS parentName
+                c.next_version_id AS nextVersionId,
+                c.date_created AS dateCreated, 
+                p.name AS parentName, n.name AS nextVersionName
              FROM recipe c
              LEFT JOIN recipe p ON p.id = c.parent_id
+             LEFT JOIN recipe n ON n.id = c.next_version_id
              WHERE c.id = :id';
 
         return $this->_db->querySingle($sql, array(':id' => $id));
@@ -134,8 +111,7 @@ class RecipeService {
             ':name' => $recipe['name'],
             ':description' => $recipe['description'],
             ':notes' => self::nvl($recipe, 'notes'),
-            ':estimatedTime' => self::nvl($recipe, 'estimatedTime'),
-            ':id' => self::nvl($recipe, 'id')
+            ':estimatedTime' => self::nvl($recipe, 'estimatedTime')
         );
         
         if ($ignoredFields !== null) {

@@ -1,6 +1,7 @@
 CREATE TABLE IF NOT EXISTS recipe (
     id              INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
     parent_id       INT,
+    next_version_id INT,
     name            VARCHAR(256) NOT NULL,
     description     TEXT NOT NULL,
     
@@ -10,7 +11,8 @@ CREATE TABLE IF NOT EXISTS recipe (
     date_created    DATETIME NOT NULL,
     date_modified   DATETIME,
     
-    FOREIGN KEY(parent_id) REFERENCES recipe(id) ON DELETE SET NULL
+    FOREIGN KEY(parent_id) REFERENCES recipe(id) ON DELETE SET NULL,
+    FOREIGN KEY(next_version_id) REFERENCES recipe(id) ON DELETE SET NULL
 );
 
 CREATE TABLE IF NOT EXISTS recipe_ingredient (

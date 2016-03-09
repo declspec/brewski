@@ -10,10 +10,7 @@ class RecipeController {
     
     public function save($req, $res) {
         try {
-            $recipe = isset($req->params['id']) && $req->params['id']
-                ? $this->_recipeService->update($req->body)
-                : $this->_recipeService->create($req->body);
-                
+            $recipe = $this->_recipeService->save($req->body);
             $this->_api->sendSuccess($res, $recipe);
         }
         catch(Exception $ex) {
