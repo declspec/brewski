@@ -1,4 +1,6 @@
 <?php
+require(__DIR__ . '/../models/recipe.php');
+
 class RecipeController {
     private $_api;
     private $_recipeService;
@@ -10,8 +12,14 @@ class RecipeController {
     
     public function save($req, $res) {
         try {
-            $recipe = $this->_recipeService->save($req->body);
-            $this->_api->sendSuccess($res, $recipe);
+            $model = RecipeModel::bind($req->body);
+
+            if (!$model->validate())
+                $this->_api->sendFailedValidation($res, $model->getErrors());
+            else {
+                $recipe = $this->_recipeService->save($model->unwrap());
+                $this->_api->sendSuccess($res, $recipe);
+            }
         }
         catch(Exception $ex) {
             $this->_api->sendFailure($res, $ex);   

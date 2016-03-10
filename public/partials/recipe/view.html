@@ -1,11 +1,12 @@
-<div class="col-md-8 col-md-offset-2">
-    <h1 ng-bind="recipe.name"></h1>
-    <p ng-bind="recipe.description"></p>
+<div class="col-md-8 col-md-offset-2" ng-show="!loading">
+    <div>
+        <a href ng-if="recipe.nextVersionId" ui-sref="view({ recipeId: recipe.nextVersionId })" class="label label-warning">Updated Version Available!</a>
+        <span ng-if="!recipe.nextVersionId" class="label label-success">Latest Version</span>
+        <span ng-if="recipe.estimatedTime" class="label label-primary" ng-bind="recipe.estimatedTime"></span>
+    </div>
     
-    <p ng-if="recipe.nextVersionId">
-        <strong>NOTE:</strong> this is no longer the latest version of this recipe. For the latest version, see 
-        <a href ui-sref="view({ recipeId: recipe.nextVersionId })" ng-bind="recipe.nextVersionName"></a>.
-    </p>
+    <h1 class="title" ng-bind="recipe.name"></h1>    
+    <p ng-bind="recipe.description"></p>
 
     <h2>Ingredients List</h2>
     <ul>

@@ -36,6 +36,7 @@ class Response {
 		HTTP_415 = 'Unsupported Media Type',
 		HTTP_416 = 'Requested Range Not Satisfiable',
 		HTTP_417 = 'Expectation Failed',
+        HTTP_422 = 'Unprocessable Entity',
 		HTTP_500 = 'Internal Server Error',
 		HTTP_501 = 'Not Implemented',
 		HTTP_502 = 'Bad Gateway',
