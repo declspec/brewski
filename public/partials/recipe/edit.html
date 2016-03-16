@@ -1,7 +1,7 @@
 <div class="row">
     <form name="editForm" class="col-sm-10 col-sm-offset-1" ng-submit="submit()" novalidate>
         <ul class="step-navigator text-center">
-            <li ng-repeat="s in steps" class="step" ng-class="{active: $index === step}" ng-bind="$index+1" ng-click="setStep($index)"></li>
+            <li ng-repeat="s in steps" class="step" ng-class="{active: $index === currentStep}" ng-bind="$index+1" ng-click="setStep($index)"></li>
         </ul>
         
         <div ng-if="errors" class="alert alert-danger">
@@ -14,9 +14,9 @@
         
         <nav>
             <ul class="pager">
-                <li ng-if="step > 0"><a href ng-click="back()"><span aria-hidden="true">&larr;</span> Back</a></li>
-                <li ng-if="step != steps.length - 1"><a href ng-click="next()">Next <span aria-hidden="true">&rarr;</span></a></li>
-                <li ng-if="step >= steps.length - 1"><a href ng-click="submit()">Submit</a></li>
+                <li ng-if="currentStep > 0"><a href ng-click="back()"><span aria-hidden="true">&larr;</span> Back</a></li>
+                <li ng-if="currentStep != steps.length - 1"><a href ng-click="next()">Next <span aria-hidden="true">&rarr;</span></a></li>
+                <li ng-if="currentStep >= steps.length - 1"><a href ng-click="submit()">Submit</a></li>
             </ul>
         </nav>
     </form>

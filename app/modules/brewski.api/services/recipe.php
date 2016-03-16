@@ -21,19 +21,17 @@ class RecipeService {
     public function save($recipe) {
         $this->_db->begin();
         
-        $sql = 
-            'INSERT INTO recipe (
-                parent_id, name, description, 
-                notes, estimated_time, date_created
-            ) 
-            VALUES (
-                :parentId, :name, :description, 
-                :notes, :estimatedTime, NOW()
-            )';
+        $sql = 'INSERT INTO recipe (parent_id, name, description, notes, estimated_time, date_created) 
+                VALUES (:parentId, :name, :description, :notes, :estimatedTime, NOW())';
         
         try {
-            $params = self::buildParams($recipe);
-            $this->_db->execute($sql, $params);
+            $this->_db->execute($sql, array(
+                ':parentId' => self::nvl($recipe, 'parentId'),
+                ':name' => $recipe['name'],
+                ':description' => $recipe['description'],
+                ':notes' => self::nvl($recipe, 'notes'),
+                ':estimatedTime' => self::nvl($recipe, 'estimatedTime')
+            );
             
             // Save the newly inserted ID but don't update the model just yet
             $newRecordId = $this->_db->getLastInsertId();
@@ -58,10 +56,6 @@ class RecipeService {
             $this->_db->rollback();
             throw $ex; // not our problem
         }  
-    }
-
-    private function validate($recipe) {
-           
     }
     
     private function findRecipe($id) {
@@ -103,23 +97,6 @@ class RecipeService {
             $params = array(':recipeId' => $recipeId, ':content' => $steps[$i]['content'], ':i' => $i);
             $this->_db->execute($sql, $params, false);
         }
-    }
-    
-    private static function buildParams($recipe, array $ignoredFields=null) {
-        $params = array(
-            ':parentId' => self::nvl($recipe, 'parentId'),
-            ':name' => $recipe['name'],
-            ':description' => $recipe['description'],
-            ':notes' => self::nvl($recipe, 'notes'),
-            ':estimatedTime' => self::nvl($recipe, 'estimatedTime')
-        );
-        
-        if ($ignoredFields !== null) {
-            foreach($ignoredFields as $field)
-                unset($params[$field]);   
-        }
-        
-        return $params;
     }
     
     private static function nvl($obj, $key, $defaultValue=null) {
