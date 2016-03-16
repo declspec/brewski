@@ -59,6 +59,9 @@ class RecipeController {
             return false;   
         }
         
+        $model->set('steps', $steps);
+        $model->set('ingredients', $ingredients);
+        
         return true;
     }
 }

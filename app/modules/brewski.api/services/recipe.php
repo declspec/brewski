@@ -31,7 +31,7 @@ class RecipeService {
                 ':description' => $recipe['description'],
                 ':notes' => self::nvl($recipe, 'notes'),
                 ':estimatedTime' => self::nvl($recipe, 'estimatedTime')
-            );
+            ));
             
             // Save the newly inserted ID but don't update the model just yet
             $newRecordId = $this->_db->getLastInsertId();

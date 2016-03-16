@@ -1,32 +1,17 @@
 <?php
 class ErrorController {
     // TODO: Replace this for your own custom errors
+    private $_template;
+    
+    public function __construct($TemplateService) {
+        $this->_template = $TemplateService;   
+    }
     
     public function notFound($req, $res) {
-        $res->status(404)->send(self::wrapBasicHtml('Not Found', '<h1>Page not found</h1><p>The page you requested does not exist on the server</p>'));
+        $res->status(404)->send($this->_template->render("404.html"));
     }  
     
     public function serverError($err, $req, $res) {
-        $html = '<h1>Internal server error</h1>' .
-        '<strong>' . self::escape($err->getMessage()) . '</strong>' .
-        '<pre><code>' . self::escape($err->getTraceAsString()) . '</code></pre>';
-        
-        $res->status(500)->send(self::wrapBasicHtml('Server Error', $html)); 
-    }
-    
-    private static function wrapBasicHtml($title, $html) {
-        return '<!DOCTYPE html>' .
-        '<html lang="en">' .
-        '<head>' .
-        '<meta charset="utf-8" />' .
-        '<link rel="stylesheet" href="/css/0.0.1/bootstrap-bare.css" />' .
-        '<title>' . self::escape($title) . '</title>' .
-        '</head>' .
-        '<body><div class="container"><div class="row">' . $html . '</div></div></body>' .
-        '</html>';
-    }
-    
-    private static function escape($html) {
-        return htmlentities($html, ENT_QUOTES, "UTF-8");   
+        $res->status(500)->send($this->_template->render("500.html"));
     }
 };

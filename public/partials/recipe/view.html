@@ -1,28 +1,40 @@
-<div class="col-md-8 col-md-offset-2" ng-show="!loading">
-    <div>
-        <a href ng-if="recipe.nextVersionId" ui-sref="view({ recipeId: recipe.nextVersionId })" class="label label-warning">Updated Version Available!</a>
-        <span ng-if="!recipe.nextVersionId" class="label label-success">Latest Version</span>
-        <span ng-if="recipe.estimatedTime" class="label label-primary" ng-bind="recipe.estimatedTime"></span>
+<div class="col-md-8 col-md-offset-2" ng-if="!loading && !recipe">
+    <h1>Oh snap!</h1>
+    <p>We couldn't find the recipe you were looking for, sorry about that.</p>
+</div>
+
+<div class="col-md-8 col-md-offset-2" ng-show="!loading && recipe">
+    <div class="panel panel-default">
+        <div class="panel-heading text-right">
+            <a href ng-if="recipe.nextVersionId" ui-sref="view({ recipeId: recipe.nextVersionId })" class="label label-warning">Updated Version Available!</a>
+            <span ng-if="!recipe.nextVersionId" class="label label-success">Latest Version</span>
+            <span ng-if="recipe.estimatedTime" class="label label-primary" ng-bind="recipe.estimatedTime"></span>
+        </div>
+        
+        <div class="panel-body">
+            <h2 class="title" ng-bind="recipe.name"></h2>    
+            <p ng-bind="recipe.description"></p>
+
+            <h3>Ingredients List</h3>
+            <ul>
+                <li ng-repeat="ingredient in recipe.ingredients">
+                    <span class="recipe-ingrqty" ng-bind="ingredient.quantity" ng-show="ingredient.quantity"></span> 
+                    <span class="recipe-ingrdsc" ng-bind="ingredient.description"></span>
+                </li>
+            </ul>
+
+            <h3>Instructions</h3>
+            <ol>
+                <li ng-repeat="step in recipe.steps" ng-bind="step.content"></li>
+            </ol>
+
+            <div ng-if="recipe.notes">
+                <h3>Additional notes</h3>
+                <p ng-bind="recipe.notes"></p>
+            </div>
+        </div>
     </div>
     
-    <h1 class="title" ng-bind="recipe.name"></h1>    
-    <p ng-bind="recipe.description"></p>
-
-    <h2>Ingredients List</h2>
-    <ul>
-        <li ng-repeat="ingredient in recipe.ingredients">
-            <span class="recipe-ingrqty" ng-bind="ingredient.quantity" ng-show="ingredient.quantity"></span> 
-            <span class="recipe-ingrdsc" ng-bind="ingredient.description"></span>
-        </li>
-    </ul>
-
-    <h2>Instructions</h2>
-    <ol>
-        <li ng-repeat="step in recipe.steps" ng-bind="step.content"></li>
-    </ol>
-
-    <div ng-if="recipe.notes">
-        <h3>Additional notes</h3>
-        <p ng-bind="recipe.notes"></p>
-    </div>
+    <a ng-if="!recipe.nextVersionId" href ui-sref="edit.description({recipeId: recipe.id})" class="btn btn-primary">Modify Recipe</a>
+    <a href ng-href="/brew/create?recipe={{recipe.id}}" class="btn btn-success">Create Brew</a>
 </div>
