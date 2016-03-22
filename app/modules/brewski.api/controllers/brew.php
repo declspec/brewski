@@ -1,15 +1,13 @@
 <?php
-require(__DIR__ . '/../models/recipe.php');
-
-class RecipeController {
+class BrewController {
     private $_api;
     private $_brewService;
     private $_errorHandler;
     
-    public function __construct($ApiService, $BrewService, $ErrorHandlerService) {
+    public function __construct($ApiService, $BrewService, $ErrorHandler) {
         $this->_api = $ApiService;
-        $this->_recipeService = $RecipeService;   
-        $this->_errorHandler = $ErrorHandlerService;
+        $this->_brewService = $BrewService;   
+        $this->_errorHandler = $ErrorHandler;
     }   
     
     public function find($req, $res) {

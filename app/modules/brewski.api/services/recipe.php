@@ -81,8 +81,10 @@ class RecipeService {
     private function createIngredients($recipeId, array $ingredients) {
         $sql = 'INSERT INTO recipe_ingredient(recipe_id, quantity, description) VALUES (:recipeId, :quantity, :description)';
         foreach($ingredients as $ing) {
-            $params = array(':recipeId' => $recipeId, ':quantity' => $ing['quantity'], ':description' => $ing['description']);
-            $this->_db->execute($sql, $params, false); // turn off emulate to optimize the prepared statement  
+            if (!empty($ing['description'])) {
+                $params = array(':recipeId' => $recipeId, ':quantity' => $ing['quantity'], ':description' => $ing['description']);
+                $this->_db->execute($sql, $params, false); // turn off emulate to optimize the prepared statement
+            }  
         }
     }
     
@@ -94,8 +96,10 @@ class RecipeService {
     private function createSteps($recipeId, array $steps) {
         $sql = 'INSERT INTO recipe_step(recipe_id, content, step_order) VALUES(:recipeId, :content, :i)';
         for($i = 0, $j = count($steps); $i < $j; ++$i) {
-            $params = array(':recipeId' => $recipeId, ':content' => $steps[$i]['content'], ':i' => $i);
-            $this->_db->execute($sql, $params, false);
+            if (!empty($steps[$i]['content'])) {
+                $params = array(':recipeId' => $recipeId, ':content' => $steps[$i]['content'], ':i' => $i);
+                $this->_db->execute($sql, $params, false);
+            }
         }
     }
     

@@ -3,9 +3,9 @@ class BrewService {
     private $_db;
     private $_errorHandler;
     
-    public function __construct($DatabaseService, $ErrorHandlerService) {
-        $this->_db = $DatabaseService;   
-        $this->_errorHandler = $ErrorHandlerService;
+    public function __construct($Database, $ErrorHandler) {
+        $this->_db = $Database;   
+        $this->_errorHandler = $ErrorHandler;
     }  
     
     public function create($recipeId) {
@@ -30,6 +30,13 @@ class BrewService {
             $this->_db->rollback();
             return false;
         }
+    }
+    
+    public function completeBrew($brewId, $initialSg) {
+        $sql = 'UPDATE brew SET initial_sg = :initialSg, date_brewed = NOW(), current_step = \'bottle\' 
+                WHERE id = :id';
+        
+        return $this->_db->execute($sql, array(':initialSg' => $initialSg, ':id' => $brewId)); 
     }
     
     public function find($id) {

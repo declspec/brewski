@@ -6,10 +6,10 @@ class RecipeController {
     private $_recipeService;
     private $_errorHandler;
     
-    public function __construct($ApiService, $RecipeService, $ErrorHandlerService) {
+    public function __construct($ApiService, $RecipeService, $ErrorHandler) {
         $this->_api = $ApiService;
         $this->_recipeService = $RecipeService;   
-        $this->_errorHandler = $ErrorHandlerService;
+        $this->_errorHandler = $ErrorHandler;
     }   
     
     public function save($req, $res) {

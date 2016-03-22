@@ -6,6 +6,7 @@ $env = isset($_ENV["PHP_ENV"]) ? $_ENV["PHP_ENV"] : "development";
 $app = Application::bootstrap("brewski.api", $env, function($app, $controller) {
     $errorController = $controller->create("ErrorController");
     $recipeController = $controller->create('RecipeController');
+    $brewController = $controller->create('BrewController');
     
     $app->post('/recipe', array($recipeController, 'save'));
     $app->post('/recipe/:id(\d+)', array($recipeController, 'save'));
