@@ -4,10 +4,12 @@ require(__DIR__ . '/../models/recipe.php');
 class RecipeController {
     private $_api;
     private $_recipeService;
+    private $_errorHandler;
     
-    public function __construct($ApiService, $RecipeService) {
+    public function __construct($ApiService, $RecipeService, $ErrorHandlerService) {
         $this->_api = $ApiService;
         $this->_recipeService = $RecipeService;   
+        $this->_errorHandler = $ErrorHandlerService;
     }   
     
     public function save($req, $res) {
@@ -22,8 +24,8 @@ class RecipeController {
             }
         }
         catch(Exception $ex) {
-            $this->_api->sendFailure($res, $ex);   
-            error_log($ex->getTraceAsString());  
+            $this->_errorHandler->handleUnchecked($ex);
+            $this->_api->sendFailure($res, $this->_errorHandler->getLastError());  
         }
     }
     
@@ -32,7 +34,8 @@ class RecipeController {
             $this->_api->sendSuccess($res, $this->_recipeService->find($req->params['id']));
         }
         catch(Exception $ex) {
-            $this->_api->sendFailure($res, $ex); 
+            $this->_errorHandler->handleUnchecked($ex);
+            $this->_api->sendFailure($res, $this->_errorHandler->getLastError()); 
         }
     }
     

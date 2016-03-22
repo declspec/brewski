@@ -19,11 +19,11 @@ class RecipeService {
     }
     
     public function save($recipe) {
-        $this->_db->begin();
-        
         $sql = 'INSERT INTO recipe (parent_id, name, description, notes, estimated_time, date_created) 
                 VALUES (:parentId, :name, :description, :notes, :estimatedTime, NOW())';
-        
+          
+        $this->_db->begin();
+
         try {
             $this->_db->execute($sql, array(
                 ':parentId' => self::nvl($recipe, 'parentId'),
