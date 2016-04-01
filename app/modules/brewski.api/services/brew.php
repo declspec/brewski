@@ -1,11 +1,9 @@
 <?php
 class BrewService {
     private $_db;
-    private $_errorHandler;
     
-    public function __construct($Database, $ErrorHandler) {
+    public function __construct($Database) {
         $this->_db = $Database;   
-        $this->_errorHandler = $ErrorHandler;
     }  
     
     public function create($recipeId) {
@@ -18,17 +16,14 @@ class BrewService {
             $params = array(':recipeId' => $recipeId);
             $recipe = $this->_db->querySingle($selectSql, $params);
             
-            if ($recipe === null) {
-                $this->_errorHandler->handleChecked('The recipe you have chosen does not exist.');
-                return false;
-            }
-            
+            if ($recipe === null) 
+                throw new CheckedException('The recipe you have chosen does not exist.');
+
             $this->_db->execute($insertSql, $params);
         }
         catch(Exception $ex) {
-            $this->_errorHandler->handleUnchecked($ex);
             $this->_db->rollback();
-            return false;
+            throw $ex;
         }
     }
     
@@ -44,8 +39,7 @@ class BrewService {
                 notes, initial_sg AS initialSg, final_sg AS finalSg,
                 date_brewed AS dateBrewed, date_bottled AS dateBottled
                 FROM brew
-                WHERE id = :id';
-                
+                WHERE id = :id'; 
        
         return $this->_db->querySingle($sql, array(':id' => $id));
     }

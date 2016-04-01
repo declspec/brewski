@@ -4,39 +4,25 @@ require(__DIR__ . '/../models/recipe.php');
 class RecipeController {
     private $_api;
     private $_recipeService;
-    private $_errorHandler;
     
-    public function __construct($ApiService, $RecipeService, $ErrorHandler) {
+    public function __construct($ApiService, $RecipeService) {
         $this->_api = $ApiService;
         $this->_recipeService = $RecipeService;   
-        $this->_errorHandler = $ErrorHandler;
     }   
     
     public function save($req, $res) {
-        try {
-            $model = RecipeModel::bind($req->body);
+        $model = RecipeModel::bind($req->body);
 
-            if (!$this->validateRecipe($model))
-                $this->_api->sendFailedValidation($res, $model->getErrors());
-            else {
-                $recipe = $this->_recipeService->save($model->unwrap());
-                $this->_api->sendSuccess($res, $recipe);
-            }
-        }
-        catch(Exception $ex) {
-            $this->_errorHandler->handleUnchecked($ex);
-            $this->_api->sendFailure($res, $this->_errorHandler->getLastError());  
+        if (!$this->validateRecipe($model))
+            $this->_api->sendFailedValidation($res, $model->getErrors());
+        else {
+            $recipe = $this->_recipeService->save($model->unwrap());
+            $this->_api->sendSuccess($res, $recipe);
         }
     }
     
     public function find($req, $res) {
-        try {
-            $this->_api->sendSuccess($res, $this->_recipeService->find($req->params['id']));
-        }
-        catch(Exception $ex) {
-            $this->_errorHandler->handleUnchecked($ex);
-            $this->_api->sendFailure($res, $this->_errorHandler->getLastError()); 
-        }
+        $this->_api->sendSuccess($res, $this->_recipeService->find($req->params['id']));
     }
     
     public function validateRecipe($model) {

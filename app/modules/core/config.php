@@ -1,11 +1,12 @@
 <?php
+// Make 'CheckedException' available everwhere
+require(__DIR__ . '/exceptions/checked.php');
 require(__DIR__ . '/services/database.php');
-require(__DIR__ . '/services/error-handler.php');
 
 return function($dm) {
     $module = $dm->module("core", array());
     
-    $module->config(function($config, $DatabaseProvider, $ErrorHandlerProvider) {
+    $module->config(function($config, $DatabaseProvider) {
         $dbConfig = $config->get("db");
         
         if ($dbConfig !== null) {
@@ -15,11 +16,8 @@ return function($dm) {
             if (isset($dbConfig["options"]))
                 $DatabaseProvider->setOptions($dbConfig["options"]);
         }
-        
-        $ErrorHandlerProvider->setUncheckedErrorMessage('An unexpected error has occurred while processing your request. Please try again.');
     });
    
     // Database provider
     $module->provider('Database', new DatabaseProvider());
-    $module->provider('ErrorHandler', new ErrorHandlerProvider());
 };
