@@ -1,0 +1,12 @@
+{extends file="layout.html"}
+
+{block name=head}
+    <script src="/js/{$global.appVersion}/common.js" type="text/javascript"></script>
+    <script src="/js/{$global.appVersion}/recipe.js" type="text/javascript"></script>
+    <script src="/js/{$global.appVersion}/brew-app.js" type="text/javascript"></script>
+    <base href="/brew/" />
+{/block}
+
+{block name=body}
+    <div ng-app="brew" ui-view></div>
+{/block}

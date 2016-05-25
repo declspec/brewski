@@ -70,13 +70,21 @@ module.exports = function(grunt) {
         // Each directory represents a compilable module.
         grunt.file.expand(expandOpts, "*").forEach(function(dir) {
             var moduleName = dir.toLowerCase(),
-                outputFile = jsDestination + moduleName + ".js";
-            
+                jsDir = './js/' + dir;
+                
             // Configure concat/uglify in the same way, only one is used.
             config.concat[moduleName] = config.uglify[moduleName] = {
-                src: [ "./js/" + dir + "/**/*.js" ],
-                dest: outputFile
+                src: [ jsDir + '/config.js', jsDir + '/**/*.js', '!' + jsDir + '/app.js' ],
+                dest: jsDestination + moduleName + '.js'
             };
+            
+            //if (grunt.file.exists(jsDir + '/app.js')) {
+            moduleName += '-app';
+            config.concat[moduleName] = config.uglify[moduleName] = {
+                src: [ jsDir + '/config.js', jsDir + '/**/*.js' ],
+                dest: jsDestination + moduleName + '.js'
+            };
+            //}
         });
     });
     
