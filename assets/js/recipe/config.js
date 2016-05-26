@@ -1,4 +1,1 @@
-(function() {
-    'use strict';
-    var recipe = angular.module('recipe', ['ui.router','common']);
-}());
+angular.module('recipe', ['ui.router','common']);

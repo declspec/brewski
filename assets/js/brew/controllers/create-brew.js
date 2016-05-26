@@ -1,9 +1,6 @@
-angular.module('brew').controller('EditBrewController', [ '$q', '$scope', '$state', '$stateParams', '$modalDialog', '$controller', 'BrewService', 'RecipeService',
-    function($q, $scope, $state, $stateParams, $modalDialog, $controller, BrewService, RecipeService) {
+angular.module('brew').controller('EditBrewController', [ '$q', '$scope', '$state', '$stateParams', '$modalDialog', 'BrewService', 'RecipeService',
+    function($q, $scope, $state, $stateParams, $modalDialog, BrewService, RecipeService) {
         $scope.loading = true;
-        
-        // Initialize the parent controller
-        var self = angular.extend(this, $controller('MultiStepFormController', { $scope: $scope }));
         
         // Lookup/create the brew
         var brewPromise = $stateParams.brewId
@@ -12,11 +9,11 @@ angular.module('brew').controller('EditBrewController', [ '$q', '$scope', '$stat
             
         $q.when(brewPromise).then(function(brew) {
             $scope.brew = brew;
-            return RecipeService.find(brew.recipeId);
+            return brew ? RecipeService.find(brew.recipeId) : null; 
         }).then(function(recipe) {
             $scope.recipe = recipe; 
         }).finally(function() {
-            $scope.loading = false; 
+            $scope.loading = false;
         });
         
         // --
