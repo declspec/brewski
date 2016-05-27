@@ -34,7 +34,7 @@ CREATE TABLE IF NOT EXISTS recipe_step (
 CREATE TABLE IF NOT EXISTS brew (
     id              INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
     recipe_id       INT NOT NULL,
-    current_step    VARCHAR(32),
+
     notes           TEXT,
     initial_sg      DECIMAL(12, 4),
     final_sg        DECIMAL(12, 4),

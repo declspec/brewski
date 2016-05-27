@@ -1,4 +1,4 @@
-angular.module('brew').controller('EditBrewController', [ '$q', '$scope', '$state', '$stateParams', '$modalDialog', 'BrewService', 'RecipeService',
+angular.module('brew').controller('CreateBrewController', [ '$q', '$scope', '$state', '$stateParams', '$modalDialog', 'BrewService', 'RecipeService',
     function($q, $scope, $state, $stateParams, $modalDialog, BrewService, RecipeService) {
         $scope.loading = true;
         

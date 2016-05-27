@@ -4,13 +4,9 @@ angular.module('brew').config(['$stateProvider', '$urlRouterProvider', '$locatio
             
             $stateProvider
                 .state('create', {
-                    url: '/create/{brewId:[0-9]+}?base',
+                    url: '/create?recipe',
                     controller: 'CreateBrewController',
-                    templateUrl: '/partials/brew/create.html',
-                    params: {
-                        brewId: { value: null, squash: true },
-                        base: { value: null, squash: true }
-                    }
+                    templateUrl: '/partials/brew/create.html'
                 });
             
             $modalDialogProvider.register('ingredients-dialog', {

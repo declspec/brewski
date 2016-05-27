@@ -1,11 +1,25 @@
 <div class="row">
-    <form name="editForm" class="col-sm-10 col-sm-offset-1" ng-submit="submit()" novalidate>
+    <form class="col-md-8 col-md-offset-2" ng-show="!loading && brew && recipe">
         <div ng-if="errors" class="alert alert-danger">
             <ul class="error-list">
                 <li ng-repeat="e in errors" ng-bind="e"></li>
             </ul>
-        </ul>
-        
-        <a ng-href="#/recipe/view/{{ recipe.id }}">Recipe</a>
+        </div>
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                Create a brew based on <a ng-href="/recipe/{recipe.id}" title="{{recipe.name}}" ng-bind="recipe.name"></a>.
+            </div>
+      
+            <div class="panel-body">
+                <div class="form-group">
+                    <label for="name">Brew name</label>
+                    <input type="text" class="form-control" id="name" placeholder="Stout #3" ng-model="brew.name" />
+                </div>
+                
+                <div class="form-group">
+                    
+                </div>
+            </div>
+        </div>
     </form>
  </div>
